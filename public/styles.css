@@ -1,0 +1,30 @@
+body{
+    background-color: #F0F0F3 !important;
+    font-family: 'Open Sans', sans-serif !important;
+    color: #728AB7 !important;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 33px;
+}
+
+
+.text_color{
+    color: #728AB7 !important;
+}
+.shadow_color{
+    color: #808B9F;
+}
+.accent_color_1{
+    color: #745FF2;
+}
+.accent_color_2{
+    color: #83DBD6;
+}
+.accent_color_3{
+    color: #C590EF;
+}
+
+.center{
+    text-align: center;
+}
