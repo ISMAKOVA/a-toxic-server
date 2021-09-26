@@ -21,23 +21,30 @@ const generateJwt1 = (id, username, email) => {
 class UserController {
     async registration(req, res, next) {
         const {username, email, password} = req.body
-        const {avatar} = req.files
-        let fileName = uuid.v4() + ".jpg"
-        await avatar.mv(path.resolve(__dirname, '..', 'static', fileName))
+        let fileName = null
+        let avatar = null
+        if (req.files) {
+            avatar = req.files.avatar
+            fileName = uuid.v4() + ".jpg"
+            await avatar.mv(path.resolve(__dirname, '..', 'static', fileName))
+        }
         if (!email || !password || !username) {
             return next(ApiError.badRequest('Некорректный username, email или password'))
         }
+
         const candidate1 = await Users.findOne({where: {email}})
         if (candidate1) {
             return next(ApiError.badRequest('Пользователь с таким email уже существует'))
         }
+
         const candidate2 = await Users.findOne({where: {username}})
         if (candidate2) {
             return next(ApiError.badRequest('Пользователь с таким username уже существует'))
         }
+
         const hashPassword = await bcrypt.hash(password, 5)
         const user = await Users.create({username, email, avatar: fileName, password: hashPassword})
-        const token = generateJwt(user.id, username, email, avatar, fileName)
+        const token = generateJwt(user.id, username, email, avatar)
         return res.json({token})
     }
 
